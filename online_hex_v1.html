@@ -1,11 +1,12 @@
 <html lang="en">
-    <title>Promise Zone Interactive-v0.1</title>
+    <title>Hex Map Appraisal District Data--Growth Project</title>
 
     <head>
         <link rel="stylesheet" href="css/leaflet.css" />
         <link rel="stylesheet" href="css/styles.css" />
         <script src="js/leaflet.js"></script>
         <script src="js/jquery-1.11.1.js"></script>
+        <script src="js/leaflet.utfgrid.js"></script>
     </head>
 
     <body>
@@ -13,9 +14,10 @@
     <div id="map_container">
             <div id="map"></div>
     </div>
+    <div id="click"></div>
 
     <script>
-        var map = L.map('map', {scrollWheelZoom: false}).setView([29.4467297, -98.5094801], 10);
+        var map = L.map('map', {scrollWheelZoom: false}).setView([29.4467297, -98.5094801], 11);
 
         function style(feature) {
             return {
@@ -26,9 +28,37 @@
             };
         }
 
-        var hex_layer = L.tileLayer('http://s3-us-west-2.amazonaws.com/growth-hex-v1/{z}/{x}/{y}.png')
+        var hex_layer = L.tileLayer('http://localhost:3333/data/10_27/tiles_xyx_test/{z}/{x}/{y}.png');
+
+        var utfgrid = new L.UtfGrid('http://localhost:3333/data/10_27/tiles_xyx_test/{z}/{x}/{y}.grid.json', { useJsonP: false });
+
+        utfgrid.on('mouseover', function(e){ info.update(e);}).on('mouseout', function(e){ info.update();})
+
+        utfgrid.on('click', function (e) {
+            console.log(e);
+            if (e.data) {
+                document.getElementById('click').innerHTML = 'click: ' + e.data.avg_year_built;
+            } else {
+                document.getElementById('click').innerHTML = 'click: nothing';
+            }
+        });
+
+        utfgrid.on('mouseover', function (e) {
+            if (e.data) {
+                document.getElementById('hover').innerHTML = 'hover: ' + e.data.admin;
+            } else {
+                document.getElementById('hover').innerHTML = 'hover: nothing';
+            }
+            //console.log('mouseover: ' + e.data);
+        });
+
+        utfgrid.on('mouseout', function (e) {
+            //console.log('mouseout: ' + e.data);
+        });
+        
 
         map.addLayer(hex_layer);
+        map.addLayer(utfgrid);
 
     </script>        
 
