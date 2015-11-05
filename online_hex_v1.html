@@ -11,13 +11,13 @@
 
     <body>
 
-    <div id="map_container">
+    <div id="mapcontainer">
             <div id="map"></div>
+             <div id="click"></div>
     </div>
-    <div id="click"></div>
 
     <script>
-        var map = L.map('map', {scrollWheelZoom: false}).setView([29.4467297, -98.5094801], 11);
+        var map = L.map('map', {scrollWheelZoom: false}).setView([29.4853257, -98.886739], 10);
 
         function style(feature) {
             return {
@@ -28,9 +28,9 @@
             };
         }
 
-        var hex_layer = L.tileLayer('http://localhost:3333/data/10_27/tiles_xyx_test/{z}/{x}/{y}.png');
+        var hex_layer = L.tileLayer('http://localhost:3333/data/11_5/tiles/{z}/{x}/{y}.png');
 
-        var utfgrid = new L.UtfGrid('http://localhost:3333/data/10_27/tiles_xyx_test/{z}/{x}/{y}.grid.json', { useJsonP: false });
+        var utfgrid = new L.UtfGrid('http://localhost:3333/data/11_5/tiles/{z}/{x}/{y}.grid.json', { useJsonP: false });
 
         utfgrid.on('mouseover', function(e){ info.update(e);}).on('mouseout', function(e){ info.update();})
 
