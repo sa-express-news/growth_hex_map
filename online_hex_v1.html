@@ -13,7 +13,7 @@
 
     <div id="mapcontainer">
             <div id="map"></div>
-             <div id="click"></div>
+            <div id="hover"></div>
     </div>
 
     <script>
@@ -32,7 +32,7 @@
 
         var utfgrid = new L.UtfGrid('http://localhost:3333/data/11_5/tiles/{z}/{x}/{y}.grid.json', { useJsonP: false });
 
-        utfgrid.on('mouseover', function(e){ info.update(e);}).on('mouseout', function(e){ info.update();})
+        //utfgrid.on('mouseover', function(e){ info.update(e);}).on('mouseout', function(e){ info.update();})
 
         utfgrid.on('click', function (e) {
             console.log(e);
@@ -44,8 +44,9 @@
         });
 
         utfgrid.on('mouseover', function (e) {
+            console.log('mouseover: ' + e.data);
             if (e.data) {
-                document.getElementById('hover').innerHTML = 'hover: ' + e.data.admin;
+                document.getElementById('hover').innerHTML = 'hover: ' + e.data.avg_year_built;
             } else {
                 document.getElementById('hover').innerHTML = 'hover: nothing';
             }
