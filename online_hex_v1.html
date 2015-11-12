@@ -7,6 +7,8 @@
         <script src="js/leaflet.js"></script>
         <script src="js/jquery-1.11.1.js"></script>
         <script src="js/leaflet.utfgrid.js"></script>
+        <script src="js/highcharts.js"></script>
+        <script src="js/houses_built_by_year.js"></script>
     </head>
 
     <body>
@@ -14,11 +16,63 @@
     <div id="mapcontainer">
             <div id="map"></div>
             <div id="hover"></div>
-            <div id="highcharts_container"></div>
+            <div id="highcharts_container">
+            </div>
     </div>
 
     <script>
-        var map = L.map('map', {scrollWheelZoom: false}).setView([29.4853257, -98.886739], 10);
+        Highcharts.setOptions({
+            chart: {
+                style: {
+                    fontFamily: '\'FarnhamText\', serif'
+                }
+            },
+            title: {
+                text: 'Age of San Antonio Housing by Year 1940 - 2014'
+            },
+            subtitle: {
+                text: 'Bexar County Appraisal Office'
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                crosshairs: [{
+                    width: 1.5,
+                    dashStyle: 'solid',
+                    color: 'black'
+                }, false]
+            }, 
+            plotOptions: {
+                line: {
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            series: {
+                marker: {
+                    enabled: false
+                }
+            },
+            xAxis: {
+                minorTickLength: 0,
+                tickLength: 0,
+                tickInterval: 10
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of homes built',
+                    style: {
+                        fontSize:"130%",
+                        letterSpacing:'.5px'
+                    }
+                },
+                min: 0,
+            }
+        });
+
+        var map = L.map('map', {scrollWheelZoom: false}).setView([29.463533, -99.093827], 10);
 
         function style(feature) {
             return {
@@ -61,6 +115,31 @@
 
         map.addLayer(hex_layer);
         map.addLayer(utfgrid);
+
+        $(function () {
+            var len = houses_built_by_year[0].data.length;
+            i = 0;
+
+            var options = {
+                chart: {
+                    renderTo: 'highcharts_container',
+                    type: 'line'
+                }, 
+            xAxis: {
+                categories: []
+            }, 
+            series: []
+        }
+
+        for(i; i < len ; i++) {
+            options.xAxis.categories.push(houses_built_by_year[0].data[i]);
+        }
+
+        options.series.push(houses_built_by_year[1]);
+
+        $('#highcharts_container').highcharts(options);
+
+        });
 
     </script>        
 
