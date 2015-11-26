@@ -19,7 +19,6 @@
     position: absolute;
     width:200px;
     height:200px;
-    background-color: red;
     color: black;
     z-index: 3;
     margin-left: 47px;
@@ -27,14 +26,85 @@
 
 #highcharts_container{
     position:fixed;
-    bottom:0;
+    bottom:30;
         left:0;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     margin-left : 47px;
-    width: 55%;
-    height: 60%;
-    color: black;
+    width: 40%;
+    height: 45%;
     z-index: 3;
 
+}
+
+#chatter-text{
+    position: fixed;
+    top:30;
+        left:0;
+        margin-left: 47px;
+        width: 40%;
+        height:35%;
+    z-index: 3;
+    background-color: white;
+    padding-left:10px;
+}
+
+#interactive-tag {
+    margin:0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+#chatter-header{
+    margin:0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+/************* legend ****************/
+.my-legend{
+    position: fixed;
+    bottom:30;
+        right:0;
+    width:80px;
+    background-color: white;
+    margin-bottom: 30px;
+    height:200px;
+    padding:5px;
+    border-width: 1;
+    z-index: 3;
+    margin-right: 47px;
+}
+
+.my-legend .legend-scale ul {
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    float: left;
+    list-style: none;
+}
+
+.my-legend .legend-scale ul li {
+    font-size: 80%;
+    list-style: none;
+    margin-left: 0;
+    line-height: 18px;
+    margin-bottom: 2px;
+}
+
+.my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 30px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+}
+
+.legend-title {
+    font-size: 13px;
+    font-family: 'Farnham', serif;
+    margin-bottom: 4px;
+    font-weight: 2;
 }
 

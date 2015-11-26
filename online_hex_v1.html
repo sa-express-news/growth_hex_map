@@ -15,17 +15,57 @@
 
     <div id="mapcontainer">
             <div id="map"></div>
-            <div id="hover"></div>
+            <div id="chatter-text">
+                <h3 id="interactive-tag">INTERACTIVE</h3>
+                <h3 id='chatter-header'>
+                    How has San Antonio grown?
+                </h3>
+
+
+                Add explainer text here about stuff. 
+
+
+
+                Protinus aerii mellis caelestia dona
+exsequar: hanc etiam, Maecenas, adspice partem.
+Admiranda tibi levium spectacula rerum
+magnanimosque duces totiusque ordine gentis
+mores et studia et populos et proelia dicam.               5
+In tenui labor; at tenuis non gloria, si quem
+numina laeva sinunt auditque vocatus Apollo.</div>
             <div id="highcharts_container">
             </div>
     </div>
 
+    <div class='my-legend'>
+        <div class='legend-title'>Decade Built</div>
+        <div class='legend-scale'>
+            <ul class='legend-labels'>
+                <li><span style='background:#fff7fb;'></span>30s-40s</li>
+                <li><span style='background:#ece7f2;'></span>40s-50s</li>
+                <li><span style='background:#d0d1e6;'></span>50s-60s</li>
+                <li><span style='background:#a6bddb;'></span>60s-70s</li>
+                <li><span style='background:#74a9cf;'></span>70s-80s</li>
+                <li><span style='background:#3690c0;'></span>80s-90s</li>
+                <li><span style='background:#0570b0;'></span>90s-00s</li>
+                <li><span style='background:#045a8d;'></span>00s-10s</li>
+                <li><span style='background:#023858;'></span>>10</li>
+            </ul>
+        </div>
+    </div>
+
+
     <script>
         var hex_layer = L.tileLayer('http://localhost:3333/data/11_5/tiles/{z}/{x}/{y}.png');
         var utfgrid = new L.UtfGrid('http://localhost:3333/data/11_5/tiles/{z}/{x}/{y}.grid.json', { useJsonP: false });
+
+        //var hex_layer = L.tileLayer('https://s3-us-west-2.amazonaws.com/growth-hex-v1/{z}/{x}/{y}.png');
+        //var utfgrid = new L.UtfGrid('https://s3-us-west-2.amazonaws.com/growth-hex-v1/{z}/{x}/{y}.grid.json', { useJsonP: false });
+
+
         var options = {};
 
-        var map = L.map('map', {scrollWheelZoom: false}).setView([29.463533, -99.093827], 10);
+        var map = L.map('map', {scrollWheelZoom: false}).setView([29.442065, -98.740552], 10);
 
         function style(feature) {
             return {
@@ -36,8 +76,11 @@
             };
         }
 
+
         map.addLayer(hex_layer);
         map.addLayer(utfgrid);
+
+        new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
         Highcharts.setOptions({
             chart: {
@@ -46,7 +89,7 @@
                 }
             },
             title: {
-                text: 'Age of San Antonio Housing by Year 1940 - 2014'
+                text: 'Number of Homes Built By Year'
             },
             subtitle: {
                 text: 'Bexar County Appraisal Office'
@@ -55,6 +98,9 @@
                 enabled: false
             },
             tooltip: {
+                formatter: function () {
+                    return this.y + ' homes were built in ' + this.x + '.';
+                },
                 crosshairs: [{
                     width: 1.5,
                     dashStyle: 'solid',
@@ -66,6 +112,9 @@
                     marker: {
                         enabled: false
                     }
+                },
+                series: {
+                    color: '#045a8d'
                 }
             },
             series: {
@@ -80,11 +129,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Number of homes built',
-                    style: {
-                        fontSize:"130%",
-                        letterSpacing:'.5px'
-                    }
+                    text: null
                 },
                 min: 0,
             }
@@ -111,8 +156,6 @@
 
             options.series.push(houses_built_by_year[1]);
 
-
-
             $('#highcharts_container').highcharts(options);
             var chart = $('#highcharts_container').highcharts();
 
@@ -121,7 +164,7 @@
                     //console.log(year);
                     chart.xAxis[0].addPlotLine({
                     value: year,
-                    color: 'gray',
+                    color: 'red',
                     width: 2,
                     id: 'plot-line'
                     });
@@ -139,10 +182,10 @@
 
                 if (e.data) {
                     //console.log(e.data);
-                    document.getElementById('hover').innerHTML = 'hover: ' + e.data.avg_year_built;
+                    //document.getElementById('hover').innerHTML = 'hover: ' + e.data.avg_year_built;
                         makeLine(findIndex(Math.floor(e.data.avg_year_built)));
                 } else {
-                    document.getElementById('hover').innerHTML = 'hover: nothing';
+                    //document.getElementById('hover').innerHTML = 'hover: nothing';
                 }
 
 
